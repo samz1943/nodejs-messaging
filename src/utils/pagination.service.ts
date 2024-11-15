@@ -20,7 +20,7 @@ export class PaginationService {
   static async paginate<T extends ObjectLiteral>(
     repository: Repository<T>,
     options: PaginationOptions
-  ): Promise<{ data: T[]; meta: { totalItems: number; totalPages: number; currentPage: number; itemsPerPage: number } }> {
+  ): Promise<{ data: T[]; totalItems: number; totalPages: number; currentPage: number; itemsPerPage: number }> {
     const { page, limit, orderBy = 'id', orderDirection = 'ASC', where = {} } = options;
 
     const skip = (page - 1) * limit;
@@ -40,12 +40,10 @@ export class PaginationService {
 
     return {
       data,
-      meta: {
-        totalItems,
-        totalPages,
-        currentPage: page,
-        itemsPerPage: limit,
-      },
+      totalItems,
+      totalPages,
+      currentPage: page,
+      itemsPerPage: limit,
     };
   }
 }

@@ -14,13 +14,15 @@ export const getMessages = async (req: Request, res: Response): Promise<void> =>
         .sort({ createdAt: -1 })
         .exec();
 
-        const totalCount = await Message.countDocuments().exec();
+        const totalItems = await Message.find({ chatId: chatId }).countDocuments().exec();
+        const totalPages = Math.ceil(totalItems / limit);
 
         const response = {
             data: messages,
-            totalCount,
-            page,
-            limit,
+            totalItems,
+            totalPages,
+            currentPage: page,
+            itemsPerPage: limit,
         };
 
         res.status(200).json(response);

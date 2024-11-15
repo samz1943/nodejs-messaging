@@ -24,7 +24,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const userId = user.id;
     const token = generateToken(userId);
 
-    res.json({ token: token });
+    res.json({
+      username: user.username,
+      token: token
+    });
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
