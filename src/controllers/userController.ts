@@ -25,6 +25,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const token = generateToken(userId);
 
     res.json({
+      id: user.id,
       username: user.username,
       token: token
     });

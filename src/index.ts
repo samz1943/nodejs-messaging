@@ -7,6 +7,7 @@ import { AppDataSource } from "./config/postgres";
 import { connectMongo } from "./config/mongo";
 import { runSeeders } from "typeorm-extension";
 import router from "./routes/indexRoutes";
+import { SocketManager } from "./manager/SocketManager";
 
 dotenv.config();
 
@@ -28,27 +29,7 @@ AppDataSource.initialize().then(async () => {
 }).catch(error => console.log(error));
 connectMongo();
 
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
-
-  socket.on('joinRoom', (roomId) => {
-    console.log(`User ${socket.id} joined room: ${roomId}`);
-    socket.join(roomId);
-
-    socket.to(roomId).emit('userJoined', `User ${socket.id} has joined the room.`);
-  });
-
-  socket.on('sendMessage', (data) => {
-    console.log('Received chatId:', data.chatId);
-    console.log('Received message:', data.content);
-
-    io.emit('receiveMessage-' + data.chatId, data.content);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
-  });
-});
+new SocketManager(io);
 
 app.use(express.json());
 
