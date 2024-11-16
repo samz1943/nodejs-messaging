@@ -43,8 +43,7 @@ export class SocketManager {
             },
         };
 
-          this.io.emit("receiveMessage-"+chatId, formatMessage);
-          // this.io.to(chatId).emit("receiveMessage", message);
+          this.io.to(chatId).emit("receiveMessage", formatMessage);
         } catch (err) {
           console.error("Error saving message:", err);
         }

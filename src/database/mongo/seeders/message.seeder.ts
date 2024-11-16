@@ -11,7 +11,7 @@ export const messageSeeder = async (appDataSource: DataSource) => {
   const chats = await chatRepository.find({ relations: ['participants'] });
   const messages = [];
 
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 30; i++) {
     const randomChat = chats[Math.floor(Math.random() * chats.length)];
 
     if (randomChat.participants.length === 0) continue;
